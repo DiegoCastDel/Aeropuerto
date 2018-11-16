@@ -13,12 +13,24 @@ using GoogleApi.Entities.Common.Enums;
 using GoogleApi.Entities.Places.Details.Request;
 using GoogleApi.Entities.Places.Photos.Request;
 using GoogleApi.Entities.Places.Search.NearBy.Request;
+using GoogleApi.Entities.Places.AutoComplete.Request;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using CsvHelper;
 
 namespace AirportExplorer.Pages
+
+
 {
+    public class AirportDetail
+    {
+        public string FormattedAddress { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Photo { get; set; }
+        public string PhotoCredit { get; set; }
+        public string Website { get; set; }
+    }
     public class IndexModel : PageModel
     {
         public string MapboxAccessToken { get; }
@@ -82,9 +94,9 @@ namespace AirportExplorer.Pages
                     MaxWidth = 400
                 });
 
-                if (photosResponse.PhotoBuffer != null)
+                if (photosResponse.Buffer != null)
                 {
-                    airportDetail.Photo = Convert.ToBase64String(photosResponse.PhotoBuffer);
+                    airportDetail.Photo = Convert.ToBase64String(photosResponse.Buffer);
                     airportDetail.PhotoCredit = photoCredit;
                 }
             }
@@ -94,15 +106,6 @@ namespace AirportExplorer.Pages
         public void OnGet()
         {
 
-        }
-
-        public class AirportDetail
-        {
-            public string FormattedAddress { get; set; }
-            public string PhoneNumber { get; set; }
-            public string Photo { get; set; }
-            public string PhotoCredit { get; set; }
-            public string Website { get; set; }
         }
 
         public IActionResult OnGetAirports()
